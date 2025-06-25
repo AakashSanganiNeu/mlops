@@ -23,7 +23,7 @@ phases:
           -f depth-anything-flask-app/Dockerfile \
           -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/depthanythingflask/api:prod \
           --build-arg FLASK_ENV=production \
-          ./depth-anything-flask-app/Dockerfile
+          ./depth-anything-flask-app
       - >
         docker build \
           -f yolo-v5-flask-app/Dockerfile \
