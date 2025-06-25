@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  yolo-v5-api:
+    build: .
+    container_name: yolo-v5-flask
+    ports:
+      - "5001:5001"
+    environment:
+      - FLASK_ENV=production
+    restart: unless-stopped 

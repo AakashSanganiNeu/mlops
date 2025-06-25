@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  depth-anything-api:
+    build: .
+    container_name: depth-anything-flask
+    ports:
+      - "5050:5050"
+    # volumes:
+    #   - ./checkpoints:/app/checkpoints:ro
+    environment:
+      - FLASK_ENV=production
+    restart: unless-stopped 
