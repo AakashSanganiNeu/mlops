@@ -27,7 +27,7 @@ phases:
       - >
         docker build \
           -f yolo-v5-flask-app/Dockerfile \
-          -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/yoloflask/webapp:prod \
+          -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/yoloflask/api:prod \
           --build-arg FLASK_ENV=production \
           ./yolo-v5-flask-app
       - >
@@ -40,5 +40,5 @@ phases:
     commands:
     - echo pushing prod images to ecr...
     - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/depthanythingflask/api:prod
-    - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/yoloflask/webapp:prod
+    - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/yoloflask/api:prod
     - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/objectdetectionreact/webapp:prod
