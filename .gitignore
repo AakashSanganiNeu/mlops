@@ -34,3 +34,20 @@
 */ENV/
 */env.bak/
 */venv.bak/
+
+# Terraform files
+*/*.tfstate
+*/*.tfstate.*
+*/*.tfvars
+*/*.tfvars.json
+*/.terraform/
+*/.terraform.lock.hcl
+*/crash.log
+*/override.tf
+*/override.tf.json
+*/*_override.tf
+*/*_override.tf.json
+*/.terraformrc
+*/terraform.rc
+
+
