@@ -24,7 +24,7 @@ resource "aws_alb_target_group" "ecstargetgroupyolo" {
         unhealthy_threshold = var.health_check_unhealthy_threshold
         interval            = var.health_check_interval
         matcher             = var.health_check_matcher
-        path                = "/yoloapi/health"
+        path                = "/health"
         port                = "traffic-port"
         protocol            = "HTTP"
         timeout             = var.health_check_timeout
@@ -48,7 +48,7 @@ resource "aws_alb_target_group" "ecstargetgroupdepth" {
         unhealthy_threshold = var.health_check_unhealthy_threshold
         interval            = var.health_check_interval
         matcher             = var.health_check_matcher
-        path                = "/depthapi/health"
+        path                = "/health"
         port                = "traffic-port"
         protocol            = "HTTP"
         timeout             = var.health_check_timeout
@@ -108,7 +108,7 @@ resource "aws_lb_listener_rule" "yoloflask_rule" {
 
   condition {
     path_pattern {
-      values = ["/yoloapi/*"]
+      values = ["/detect"]
     }
   }
 }
@@ -125,7 +125,7 @@ resource "aws_lb_listener_rule" "depthanythingflask_rule" {
 
   condition {
     path_pattern {
-      values = ["/depthapi/*"]
+      values = ["/predict_depth"]
     }
   }
 }

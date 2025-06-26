@@ -40,25 +40,9 @@ output "alb-zone-id" {
   value = "${aws_alb.ecs-load-balancer.zone_id}"
 }
 
-# Access URLs for the applications
-output "react-frontend-url" {
-  description = "URL to access the React frontend"
-  value = "http://${aws_alb.ecs-load-balancer.dns_name}/"
-}
-
-output "yolo-api-url" {
-  description = "URL to access the YOLO API"
-  value = "http://${aws_alb.ecs-load-balancer.dns_name}/yoloapi/"
-}
-
-output "depth-api-url" {
-  description = "URL to access the Depth API"
-  value = "http://${aws_alb.ecs-load-balancer.dns_name}/depthapi/"
-}
-
 output "complete-frontend-url" {
   description = "Complete frontend URL with API endpoints as query parameters"
-  value = "http://${aws_alb.ecs-load-balancer.dns_name}/?yoloapi=http://${aws_alb.ecs-load-balancer.dns_name}/yoloapi&depthapi=http://${aws_alb.ecs-load-balancer.dns_name}/depthapi"
+  value = "http://${aws_alb.ecs-load-balancer.dns_name}/?yoloapi=http://${aws_alb.ecs-load-balancer.dns_name}&depthapi=http://${aws_alb.ecs-load-balancer.dns_name}"
 }
 
 output "ecs-target-group-yoloflask-arn" {

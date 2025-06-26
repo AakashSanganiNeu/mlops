@@ -1,55 +1,62 @@
+########################### Core Configuration ################################
+
 variable "ecs_cluster" {
   description = "ECS cluster name"
+  type        = string
 }
 
 variable "ecs_key_pair_name" {
   description = "ECS key pair name"
+  type        = string
 }
 
 variable "region" {
   description = "AWS region"
+  type        = string
 }
 
-variable "availability_zone" {
-  description = "availability zone used, based on region"
-  default = {
-    us-east-1 = "us-east-1"
-  }
-}
 
-########################### VPC Config ################################
+
+########################### VPC Configuration ################################
 
 variable "test_vpc" {
   description = "VPC for Test environment"
+  type        = string
 }
 
 variable "test_network_cidr" {
   description = "IP addressing for Test Network"
+  type        = string
 }
 
 variable "test_public_01_cidr" {
-  description = "Public 0.0 CIDR for externally accessible subnet"
+  description = "Public subnet 1 CIDR for externally accessible subnet"
+  type        = string
 }
 
 variable "test_public_02_cidr" {
-  description = "Public 0.0 CIDR for externally accessible subnet"
+  description = "Public subnet 2 CIDR for externally accessible subnet"
+  type        = string
 }
 
-########################### Autoscale Config ################################
+########################### Autoscaling Configuration ################################
 
 variable "max_instance_size" {
   description = "Maximum number of instances in the cluster"
+  type        = number
 }
 
 variable "min_instance_size" {
   description = "Minimum number of instances in the cluster"
+  type        = number
 }
 
 variable "desired_capacity" {
   description = "Desired number of instances in the cluster"
+  type        = number
 }
 
-########################### ECR and Container Config ################################
+########################### Container Images Configuration ################################
 
 variable "aws_account_id" {
   description = "AWS Account ID for ECR repositories"
@@ -91,6 +98,8 @@ variable "objectdetectionreact_image_tag" {
   type        = string
   default     = "prod"
 }
+
+########################### Container Configuration ################################
 
 variable "yoloflask_container_port" {
   description = "YOLO Flask container port"
@@ -146,12 +155,24 @@ variable "objectdetectionreact_container_cpu" {
   default     = 0
 }
 
-########################### Launch Configuration Config ################################
+########################### Launch Configuration ################################
 
 variable "instance_type" {
   description = "EC2 instance type for ECS instances"
   type        = string
   default     = "t2.xlarge"
+}
+
+variable "flask_instance_type" {
+  description = "EC2 instance type for Flask applications"
+  type        = string
+  default     = "m4.4xlarge"
+}
+
+variable "react_instance_type" {
+  description = "EC2 instance type for React application"
+  type        = string
+  default     = "m4.2xlarge"
 }
 
 variable "ami_id" {
@@ -172,7 +193,13 @@ variable "root_volume_type" {
   default     = "standard"
 }
 
-########################### Load Balancer Config ################################
+variable "launch_configuration_name" {
+  description = "Launch configuration name prefix"
+  type        = string
+  default     = "ecs-launch-configuration"
+}
+
+########################### Load Balancer Configuration ################################
 
 variable "alb_name" {
   description = "Application Load Balancer name"
@@ -198,125 +225,23 @@ variable "objectdetectionreact_target_group_name" {
   default     = "ecstargetgroupreact"
 }
 
-variable "yoloflask_health_check_path" {
-  description = "YOLO Flask health check path"
-  type        = string
-  default     = "/health"
-}
-
-variable "depthanythingflask_health_check_path" {
-  description = "Depth Anything Flask health check path"
-  type        = string
-  default     = "/health"
-}
-
-variable "objectdetectionreact_health_check_path" {
-  description = "Object Detection React health check path"
-  type        = string
-  default     = "/"
-}
-
-variable "yoloflask_service_name" {
-  description = "YOLO Flask ECS service name"
-  type        = string
-  default     = "yoloflask-ecs-service"
-}
-
-variable "depthanythingflask_service_name" {
-  description = "Depth Anything Flask ECS service name"
-  type        = string
-  default     = "depthanythingflask-ecs-service"
-}
-
-variable "objectdetectionreact_service_name" {
-  description = "Object Detection React ECS service name"
-  type        = string
-  default     = "objectdetectionreact-ecs-service"
-}
-
-variable "yoloflask_task_family" {
-  description = "YOLO Flask task definition family name"
-  type        = string
-  default     = "yoloflask-task-definition"
-}
-
-variable "depthanythingflask_task_family" {
-  description = "Depth Anything Flask task definition family name"
-  type        = string
-  default     = "depthanythingflask-task-definition"
-}
-
-variable "objectdetectionreact_task_family" {
-  description = "Object Detection React task definition family name"
-  type        = string
-  default     = "objectdetectionreact-task-definition"
-}
-
-variable "launch_configuration_name" {
-  description = "Launch configuration name"
-  type        = string
-  default     = "ecs-launch-rockstar-configuration"
-}
-
-########################### Security Group Config ################################
+########################### Security Group Configuration ################################
 
 variable "ssh_port" {
-  description = "SSH port for security group"
+  description = "SSH port number"
   type        = number
   default     = 22
 }
 
 variable "http_port" {
-  description = "HTTP port for security group"
+  description = "HTTP port number"
   type        = number
   default     = 80
 }
 
-variable "http_alt_port" {
-  description = "Alternative HTTP port for security group"
-  type        = number
-  default     = 8080
-}
 
-########################### ALB Listener Config ################################
 
-variable "alb_listener_port" {
-  description = "ALB listener port"
-  type        = number
-  default     = 8081
-}
-
-variable "alb_stickiness_duration" {
-  description = "ALB stickiness duration in seconds"
-  type        = number
-  default     = 28800
-}
-
-variable "alb_listener_rule_priority" {
-  description = "ALB listener rule priority"
-  type        = number
-  default     = 100
-}
-
-variable "yoloflask_path_patterns" {
-  description = "Path patterns for YOLO Flask routing"
-  type        = list(string)
-  default     = ["/detect", "/health", "/model-info"]
-}
-
-variable "depthanythingflask_path_patterns" {
-  description = "Path patterns for Depth Anything Flask routing"
-  type        = list(string)
-  default     = ["/predict_depth", "/health", "/model-info"]
-}
-
-variable "objectdetectionreact_path_patterns" {
-  description = "Path patterns for Object Detection React routing"
-  type        = list(string)
-  default     = ["/"]
-}
-
-########################### Health Check Config ################################
+########################### Health Check Configuration ################################
 
 variable "health_check_healthy_threshold" {
   description = "Health check healthy threshold"
@@ -348,7 +273,45 @@ variable "health_check_matcher" {
   default     = "200"
 }
 
-########################### Task Definition Config ################################
+########################### Service Configuration ################################
+
+variable "yoloflask_service_name" {
+  description = "YOLO Flask service name"
+  type        = string
+  default     = "yoloflask-ecs-service"
+}
+
+variable "depthanythingflask_service_name" {
+  description = "Depth Anything Flask service name"
+  type        = string
+  default     = "depthanythingflask-ecs-service"
+}
+
+variable "objectdetectionreact_service_name" {
+  description = "Object Detection React service name"
+  type        = string
+  default     = "objectdetectionreact-ecs-service"
+}
+
+########################### Task Definition Configuration ################################
+
+variable "yoloflask_task_family" {
+  description = "YOLO Flask task family name"
+  type        = string
+  default     = "yoloflask-task-definition"
+}
+
+variable "depthanythingflask_task_family" {
+  description = "Depth Anything Flask task family name"
+  type        = string
+  default     = "depthanythingflask-task-definition"
+}
+
+variable "objectdetectionreact_task_family" {
+  description = "Object Detection React task family name"
+  type        = string
+  default     = "objectdetectionreact-task-definition"
+}
 
 variable "yoloflask_task_cpu" {
   description = "YOLO Flask task CPU allocation"
@@ -410,19 +373,7 @@ variable "objectdetectionreact_container_name" {
   default     = "objectdetectionreact"
 }
 
-########################### CloudWatch Auto Scaling Config ################################
-
-variable "cpu_scale_up_threshold" {
-  description = "CPU utilization threshold for scaling up"
-  type        = number
-  default     = 60
-}
-
-variable "cpu_scale_down_threshold" {
-  description = "CPU utilization threshold for scaling down"
-  type        = number
-  default     = 30
-}
+########################### CloudWatch Auto Scaling Configuration ################################
 
 variable "memory_scale_up_threshold" {
   description = "Memory utilization threshold for scaling up"
@@ -459,17 +410,3 @@ variable "log_retention_days" {
   type        = number
   default     = 7
 }
-########################### Instance Type Configuration ################################
-
-variable "flask_instance_type" {
-  description = "EC2 instance type for Flask applications (YOLO and Depth Anything)"
-  type        = string
-  default     = "m4.4xlarge"
-}
-
-variable "react_instance_type" {
-  description = "EC2 instance type for React application"
-  type        = string
-  default     = "m4.2xlarge"
-}
-

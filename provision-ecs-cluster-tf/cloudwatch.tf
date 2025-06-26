@@ -36,9 +36,8 @@ resource "aws_cloudwatch_log_group" "ecs_cluster_log_group" {
   }
 }
 
-# Auto-scaling configuration commented out as requested
-/*
-# CloudWatch Alarm for High CPU Usage (Scale Up)
+# Auto-scaling configuration - Now ENABLED
+# CloudWatch Alarm for High CPU Usage (Scale Up at 70%)
 resource "aws_cloudwatch_metric_alarm" "ecs_cpu_high" {
   alarm_name          = "ecs-cpu-utilization-high"
   comparison_operator = "GreaterThanThreshold"
@@ -47,8 +46,8 @@ resource "aws_cloudwatch_metric_alarm" "ecs_cpu_high" {
   namespace           = "AWS/ECS"
   period              = var.alarm_period
   statistic           = "Average"
-  threshold           = var.cpu_scale_up_threshold
-  alarm_description   = "This metric monitors ECS CPU utilization for auto-scaling"
+  threshold           = 70
+  alarm_description   = "This metric monitors ECS CPU utilization for auto-scaling up when > 70%"
   alarm_actions       = [aws_autoscaling_policy.ecs_scale_up_policy.arn]
 
   dimensions = {
@@ -56,7 +55,7 @@ resource "aws_cloudwatch_metric_alarm" "ecs_cpu_high" {
   }
 }
 
-# CloudWatch Alarm for Low CPU Usage (Scale Down)
+# CloudWatch Alarm for Low CPU Usage (Scale Down at 30%)
 resource "aws_cloudwatch_metric_alarm" "ecs_cpu_low" {
   alarm_name          = "ecs-cpu-utilization-low"
   comparison_operator = "LessThanThreshold"
@@ -65,8 +64,8 @@ resource "aws_cloudwatch_metric_alarm" "ecs_cpu_low" {
   namespace           = "AWS/ECS"
   period              = var.alarm_period
   statistic           = "Average"
-  threshold           = var.cpu_scale_down_threshold
-  alarm_description   = "This metric monitors ECS CPU utilization for auto-scaling down"
+  threshold           = 30
+  alarm_description   = "This metric monitors ECS CPU utilization for auto-scaling down when < 30%"
   alarm_actions       = [aws_autoscaling_policy.ecs_scale_down_policy.arn]
 
   dimensions = {
@@ -108,5 +107,4 @@ resource "aws_autoscaling_policy" "ecs_scale_down_policy" {
   adjustment_type        = "ChangeInCapacity"
   cooldown               = var.scale_down_cooldown
   autoscaling_group_name = aws_autoscaling_group.ecs-autoscaling-group.name
-}
-*/ 
+} 
